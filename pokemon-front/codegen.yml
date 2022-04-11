@@ -1,0 +1,14 @@
+schema:
+    - http://localhost:4000
+generates:
+  src/generated/index.ts:
+    documents:
+      - ./src/graphql/queries/*.ts
+      - ./src/graphql/mutations/*.ts
+    plugins:
+      - typescript
+      - typescript-operations
+config:
+  typesPrefix: T
+  skipTypename: true
+  namingConvention: change-case#pascalCase
