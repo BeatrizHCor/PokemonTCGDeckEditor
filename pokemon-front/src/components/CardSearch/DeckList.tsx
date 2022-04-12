@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PokemonTCG } from "pokemon-tcg-sdk-typescript";
 import {
     Button,
@@ -15,19 +15,22 @@ import { AuthContext } from "../../contexts/AuthContextProvider";
 import { TDeckDto, TQuery } from "../../generated";
 import { LOAD_DECKS } from "../../graphql/queries/Deck";
 import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 
 const DeckList = () => {
+    const { token } = useContext(AuthContext);
     const [deckData, setDeckData] = useState<[TDeckDto] | undefined[]>();
-    const loadDeck = useQuery(LOAD_DECKS);
-    const deckList = async () => {
-        setDeckData(loadDeck.data.loadUserDecks);
-        await console.log(deckData);
-    };
+    const { decks, loading } = useDeckLoad();
+    const navigate = useNavigate();
+
+    if (loading) {
+        return <p>...loading</p>;
+    }
 
     return (
         <>
             <Card>
-                <Button onClick={deckList}>Decks</Button>
+                <h1>Deck List</h1>
                 <TableContainer sx={{ maxHeight: 500, width: 1500 }}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
@@ -38,15 +41,20 @@ const DeckList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {deckData?.map((deck) => (
+                            {decks?.map((deck) => (
                                 <TableRow
                                     key={deck?.id}
                                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                                     <TableCell align="center">{deck?.name}</TableCell>
                                     <TableCell align="center">{deck?.id}</TableCell>
                                     <TableCell align="center">{deck?.cards.length}</TableCell>
+                                    <TableCell align="right">EditButton</TableCell>
+                                    <TableCell align="right">DeleteButton</TableCell>
                                 </TableRow>
                             ))}
+                            <Button variant="outlined" onClick={() => navigate("/deck")}>
+                                Create new Deck
+                            </Button>
                         </TableBody>
                     </Table>
                 </TableContainer>

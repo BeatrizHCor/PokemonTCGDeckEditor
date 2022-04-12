@@ -28,11 +28,11 @@ const AuthContextProvider = (props: IProps) => {
     const now = Date.now;
 
     useEffect(() => {
-        const storageToken = localStorage.getItem(TOKEN_NAME);
+        const storageToken = localStorage.getItem(TOKEN_NAME) || token;
 
         setTokenState(storageToken || "");
         if (location.pathname !== "/") {
-            if (!token) {
+            if (!storageToken) {
                 return navigate("/");
             }
             const isTokenExpired = false;
