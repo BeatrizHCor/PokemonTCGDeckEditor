@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button, Card, Container, TextField } from "@mui/material/";
 import { PokemonTCG } from "pokemon-tcg-sdk-typescript";
 import { Box } from "@mui/system";
-import { useSaveDeck, useUpdateDeck } from "../../graphql/hooks/Deck";
+import { useDeckLoadOne, useSaveDeck, useUpdateDeck } from "../../graphql/hooks/Deck";
 import { TDeckUpdateInput } from "../../generated";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const INITIAL_STATE: PokemonTCG.Card[] = [];
 const INITIAL_SAVE_STATE = {
@@ -12,6 +13,7 @@ const INITIAL_SAVE_STATE = {
 };
 
 const CardSearch = () => {
+    const [deckId] = useSearchParams();
     const [cardSearch, setCardSearch] = useState("");
     const [cardData, setCardData] = useState<PokemonTCG.Card[]>(INITIAL_STATE);
     const [currentDeck, setCurrentDeck] = useState<PokemonTCG.Card[]>(INITIAL_STATE);
@@ -19,6 +21,24 @@ const CardSearch = () => {
     const saveDeck = useSaveDeck();
     const [input, setInput] = useState<TDeckUpdateInput>(INITIAL_SAVE_STATE);
     const deckLength = currentDeck.length;
+    const { deckLoad, loading, error } = useDeckLoadOne(Number(deckId.get("deckId")));
+
+    if (loading) {
+        return <p>...loading</p>;
+    }
+
+    const defineDeck = async () => {
+        if (!deckLoad) {
+            return;
+        }
+        const deckCardsMap = deckLoad.cards.map((cardId) => PokemonTCG.findCardByID(`${cardId}`));
+        const deckCards = await Promise.all<PokemonTCG.Card>(deckCardsMap);
+        setCurrentDeck(deckCards);
+    };
+
+    if (deckLoad) {
+        defineDeck();
+    }
 
     const findByName = async () => {
         const cards = await PokemonTCG.findCardsByQueries({ q: `name:*${cardSearch}*` });
@@ -28,9 +48,19 @@ const CardSearch = () => {
     const addCardtoDeck = async (cardid: string) => {
         const cardstoDeck = await PokemonTCG.findCardByID(`${cardid}`);
         setCurrentDeck([...currentDeck, cardstoDeck]);
+    };
+    const saveDeckButton = async () => {
         saveDeck({
             name: input.name || "",
             cards: currentDeck.map((it) => it.id),
+        });
+    };
+
+    const updateDeckButton = async () => {
+        updateDeck({
+            name: input.name || "",
+            cards: currentDeck.map((it) => it.id),
+            id: Number(deckId.get("deckId")),
         });
     };
 
@@ -90,10 +120,10 @@ const CardSearch = () => {
                     </Container>
                 ))}
             </Card>
-            <Button>Save Deck</Button>
-            <Button>Save as new Deck</Button>
-            <Button onClick={() => generateRandomDeck()}>Generate Random Deck</Button>
-            <Button onClick={() => setCurrentDeck([])}>Delete All</Button>
+            <Button onClick={saveDeckButton}>Save Deck</Button>
+            <Button onClick={updateDeckButton}>Save as new Deck</Button>
+            <Button onClick={generateRandomDeck}>Generate Random Deck</Button>
+            <Button onClick={() => setCurrentDeck(INITIAL_STATE)}>Delete All</Button>
             <Button>Reset Deck</Button>
             <Card sx={{ bottom: 0, right: 0 }}>
                 <TextField

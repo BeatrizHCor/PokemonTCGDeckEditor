@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const UPDATE_DECK = gql`
-    mutation Mutation($input: DeckUpdateInput!) {
+    mutation updateDeck($input: DeckUpdateInput!) {
         updateDeck(input: $input) {
             id
             name
@@ -10,7 +10,7 @@ export const UPDATE_DECK = gql`
     }
 `;
 export const CREATE_DECK = gql`
-    mutation Mutation($input: DeckCreateInput!) {
+    mutation createDeck($input: DeckCreateInput!) {
         createDeck(input: $input) {
             name
             id

@@ -73,7 +73,19 @@ const Register = () => {
             </div>
             <div className="footer">
                 <Button
-                    sx={{ margin: 5, backgroundColor: "#FB1B1B" }}
+                    sx={{
+                        margin: 5,
+                        position: "absolute",
+                        top: "32.4%",
+                        left: "45%",
+                        borderRadius: "50%",
+                        width: 100,
+                        height: 100,
+                        backgroundColor: "#ffff",
+                        color: "#000000",
+                        borderColor: "#000000",
+                        border: 8,
+                    }}
                     variant="contained"
                     onClick={registerHandler}>
                     Register

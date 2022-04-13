@@ -1,10 +1,14 @@
-import { JwtPayload, verify } from "jsonwebtoken";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import Container, { Service } from "typedi";
 import { DataSource, Repository } from "typeorm";
 import { Deck } from "../../entity/Deck";
-import { ACCESS_TOKEN_SECRET } from "../../middlewares/constants";
-import { DeckCreateInput, DeckDTO, DeckUpdateDTO, DeckUpdateInput } from "../dto/DeckDTO";
+import {
+    DeckCreateInput,
+    DeckDTO,
+    DeckloadOneInput,
+    DeckUpdateDTO,
+    DeckUpdateInput,
+} from "../dto/DeckDTO";
 import { Context } from "./UserResolver";
 
 @Service()
@@ -20,6 +24,11 @@ export class DeckResolver {
     async loadUserDecks(@Ctx() context: Context) {
         const { user } = context;
         return this.repository.find({ where: { userId: user.id } });
+    }
+
+    @Query((_) => DeckDTO)
+    async loadDeckandCards(@Arg("deckId") deckId: number) {
+        return this.repository.findOneOrFail({ where: { id: deckId } });
     }
 
     @Mutation((_) => DeckUpdateDTO)

@@ -43,3 +43,8 @@ export class DeckCreateInput {
     @Field(() => [String])
     cards: string[];
 }
+@InputType()
+export class DeckloadOneInput {
+    @Field()
+    id: number;
+}

@@ -1,3 +1,4 @@
+import { decode } from "jsonwebtoken";
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -35,11 +36,7 @@ const AuthContextProvider = (props: IProps) => {
             if (!storageToken) {
                 return navigate("/");
             }
-            const isTokenExpired = false;
-            if (isTokenExpired) {
-                window.localStorage.removeItem(TOKEN_NAME);
-                setToken("");
-            }
+            const tokenExpiredCheck = decode(token);
         }
     }, [token]);
 

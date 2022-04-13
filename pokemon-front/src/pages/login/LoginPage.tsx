@@ -12,21 +12,38 @@ const LoginForm = () => {
             <Box sx={{ Top: 10 }}>
                 <Card
                     sx={{
-                        marginTop: 20,
+                        marginTop: 1,
                         boxShadow: 4,
-                        border: 2,
+                        border: 4,
                         borderColor: " #000000",
-                        color: "#FB1B1B",
+                        borderTopLeftRadius: 500,
+                        borderTopRightRadius: 500,
+                        height: 400,
+                        width: 800,
+                        backgroundColor: "#be5757",
                     }}>
                     {isLoginActive ? <Login /> : <Register />}
                 </Card>
-                <Button sx={{ color: "#000000" }} onClick={() => toggleLoginActive()}>
-                    {isLoginActive ? (
-                        <p>Need to Create a User?</p>
-                    ) : (
-                        <p>Already have an account?</p>
-                    )}
-                </Button>
+                <Card
+                    sx={{
+                        boxShadow: 4,
+                        border: 4,
+                        borderColor: " #000000",
+                        borderBottomLeftRadius: 500,
+                        borderBottomRightRadius: 500,
+                        height: 400,
+                        width: 800,
+                    }}>
+                    <Button
+                        sx={{ color: "#000000", margin: 15 }}
+                        onClick={() => toggleLoginActive()}>
+                        {isLoginActive ? (
+                            <p>Need to Create a User?</p>
+                        ) : (
+                            <p>Already have an account?</p>
+                        )}
+                    </Button>
+                </Card>
             </Box>
         </>
     );

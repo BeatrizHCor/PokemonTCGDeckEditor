@@ -1,14 +1,28 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useCallback } from "react";
-import { TDeckCreateInput, TDeckUpdateInput, TQuery } from "../../generated";
+import {
+    TDeckCreateInput,
+    TDeckUpdateInput,
+    TLoadDeckandCardsQuery,
+    TLoadDeckandCardsQueryVariables,
+    TQuery,
+} from "../../generated";
 import { CREATE_DECK, UPDATE_DECK } from "../mutations/Deck";
 
-import { LOAD_DECKS } from "../queries/Deck";
+import { LOAD_DECKS, LOAD_ONE_DECK } from "../queries/Deck";
 
 export const useDeckLoad = () => {
     const { loading, error, data } = useQuery<TQuery>(LOAD_DECKS);
     const decks = data?.loadUserDecks || [];
     return { decks, loading, error };
+};
+export const useDeckLoadOne = (deckId: number) => {
+    const { loading, error, data } = useQuery<
+        TLoadDeckandCardsQuery,
+        TLoadDeckandCardsQueryVariables
+    >(LOAD_ONE_DECK, { variables: { deckId }, skip: !deckId });
+    const deckLoad = data?.loadDeckandCards;
+    return { deckLoad, loading, error };
 };
 
 export const useUpdateDeck = () => {

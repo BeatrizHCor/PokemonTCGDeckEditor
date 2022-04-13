@@ -1,4 +1,13 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from "typeorm";
+import { Comment } from "./Comments";
 import { User } from "./User";
 
 @Entity()
@@ -18,4 +27,7 @@ export class Deck extends BaseEntity {
     @ManyToOne(() => User, (user) => user.decks)
     @JoinColumn({ name: "userId" })
     user: User;
+
+    @OneToMany(() => Comment, (comment) => comment.deck, { nullable: true, eager: true })
+    comments: Comment[];
 }

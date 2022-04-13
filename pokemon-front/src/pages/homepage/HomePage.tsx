@@ -1,5 +1,5 @@
 import React from "react";
-import DeckList from "../../components/CardSearch/DeckList";
+import DeckList from "../../components/DeckList.ts/DeckList";
 
 const HomePage = () => {
     return (

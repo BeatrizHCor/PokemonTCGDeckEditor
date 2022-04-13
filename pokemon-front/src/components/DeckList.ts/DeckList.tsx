@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PokemonTCG } from "pokemon-tcg-sdk-typescript";
 import {
     Button,
     Card,
+    Container,
     Table,
     TableBody,
     TableCell,
@@ -10,16 +10,13 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+
 import { useDeckLoad } from "../../graphql/hooks/Deck";
 import { AuthContext } from "../../contexts/AuthContextProvider";
-import { TDeckDto, TQuery } from "../../generated";
-import { LOAD_DECKS } from "../../graphql/queries/Deck";
-import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-
+import CatchingPokemon from "@mui/icons-material/CatchingPokemon";
+import { DeleteForeverRounded } from "@mui/icons-material";
 const DeckList = () => {
-    const { token } = useContext(AuthContext);
-    const [deckData, setDeckData] = useState<[TDeckDto] | undefined[]>();
     const { decks, loading } = useDeckLoad();
     const navigate = useNavigate();
 
@@ -38,6 +35,8 @@ const DeckList = () => {
                                 <TableCell align="center">DeckName</TableCell>
                                 <TableCell align="center">Deck Id</TableCell>
                                 <TableCell align="center">Number of Cards</TableCell>
+                                <TableCell align="center">Edit Deck</TableCell>
+                                <TableCell align="center">Delete Deck</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -48,11 +47,27 @@ const DeckList = () => {
                                     <TableCell align="center">{deck?.name}</TableCell>
                                     <TableCell align="center">{deck?.id}</TableCell>
                                     <TableCell align="center">{deck?.cards.length}</TableCell>
-                                    <TableCell align="right">EditButton</TableCell>
-                                    <TableCell align="right">DeleteButton</TableCell>
+                                    <TableCell align="center">
+                                        <Container>
+                                            <CatchingPokemon
+                                                onClick={() => navigate(`/deck?deckId=${deck?.id}`)}
+                                                sx={{
+                                                    color: "blue",
+                                                    cursor: "pointer",
+                                                }}></CatchingPokemon>
+                                        </Container>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <DeleteForeverRounded
+                                            sx={{ color: "black", cursor: "pointer" }}
+                                        />
+                                    </TableCell>
                                 </TableRow>
                             ))}
-                            <Button variant="outlined" onClick={() => navigate("/deck")}>
+                            <Button
+                                variant="outlined"
+                                onClick={() => navigate("/:deck")}
+                                sx={{ widht: "fit-content" }}>
                                 Create new Deck
                             </Button>
                         </TableBody>

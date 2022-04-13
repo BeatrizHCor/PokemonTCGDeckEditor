@@ -10,6 +10,20 @@ export type Scalars = {
     Boolean: boolean;
     Int: number;
     Float: number;
+    /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+    DateTime: any;
+};
+
+export type TCommentCreateInput = {
+    content: Scalars["String"];
+    date: Scalars["DateTime"];
+    deckid: Scalars["Float"];
+};
+
+export type TCommentDto = {
+    content: Scalars["String"];
+    date: Scalars["DateTime"];
+    id: Scalars["Float"];
 };
 
 export type TDeckCreateInput = {
@@ -35,11 +49,20 @@ export type TDeckUpdateInput = {
     name?: InputMaybe<Scalars["String"]>;
 };
 
+export type TDeckloadOneInput = {
+    id: Scalars["Float"];
+};
+
 export type TMutation = {
+    createComment: TCommentDto;
     createDeck: TDeckDto;
     createUser: TUserDto;
     loginUser: Scalars["String"];
     updateDeck: TDeckUpdateDto;
+};
+
+export type TMutationCreateCommentArgs = {
+    input: TCommentCreateInput;
 };
 
 export type TMutationCreateDeckArgs = {
@@ -59,8 +82,18 @@ export type TMutationUpdateDeckArgs = {
 };
 
 export type TQuery = {
+    loadComments: Array<TCommentDto>;
+    loadDeckandCards: TDeckDto;
     loadUser: TUserDto;
     loadUserDecks: Array<TDeckDto>;
+};
+
+export type TQueryLoadCommentsArgs = {
+    deckId: Scalars["Float"];
+};
+
+export type TQueryLoadDeckandCardsArgs = {
+    deckId: Scalars["Float"];
 };
 
 export type TQueryLoadUserArgs = {
@@ -86,6 +119,28 @@ export type TUserLoginInput = {
     password: Scalars["String"];
 };
 
+export type TCreateCommentMutationVariables = Exact<{
+    input: TCommentCreateInput;
+}>;
+
+export type TCreateCommentMutation = { createComment: { id: number; date: any; content: string } };
+
+export type TUpdateDeckMutationVariables = Exact<{
+    input: TDeckUpdateInput;
+}>;
+
+export type TUpdateDeckMutation = {
+    updateDeck: { id: number; name?: string | null; cards?: Array<string> | null };
+};
+
+export type TCreateDeckMutationVariables = Exact<{
+    input: TDeckCreateInput;
+}>;
+
+export type TCreateDeckMutation = {
+    createDeck: { name: string; id: number; cards: Array<string> };
+};
+
 export type TCreateUserMutationVariables = Exact<{
     input: TUserInput;
 }>;
@@ -99,3 +154,25 @@ export type TLoginUserMutationVariables = Exact<{
 }>;
 
 export type TLoginUserMutation = { loginUser: string };
+
+export type TLoadCommentsQueryVariables = Exact<{
+    deckId: Scalars["Float"];
+}>;
+
+export type TLoadCommentsQuery = {
+    loadComments: Array<{ id: number; date: any; content: string }>;
+};
+
+export type TLoadUserDecksQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TLoadUserDecksQuery = {
+    loadUserDecks: Array<{ id: number; name: string; cards: Array<string> }>;
+};
+
+export type TLoadDeckandCardsQueryVariables = Exact<{
+    deckId: Scalars["Float"];
+}>;
+
+export type TLoadDeckandCardsQuery = {
+    loadDeckandCards: { id: number; name: string; cards: Array<string> };
+};
