@@ -2,13 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import Container, { Service } from "typedi";
 import { DataSource, Repository } from "typeorm";
 import { Deck } from "../../entity/Deck";
-import {
-    DeckCreateInput,
-    DeckDTO,
-    DeckloadOneInput,
-    DeckUpdateDTO,
-    DeckUpdateInput,
-} from "../dto/DeckDTO";
+import { DeckCreateInput, DeckDTO, DeckUpdateDTO, DeckUpdateInput } from "../dto/DeckDTO";
 import { Context } from "./UserResolver";
 
 @Service()

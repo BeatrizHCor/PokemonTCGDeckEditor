@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-
+// DTO para definir Input e retorno dos Decks
 @ObjectType()
 export class DeckDTO {
     @Field()

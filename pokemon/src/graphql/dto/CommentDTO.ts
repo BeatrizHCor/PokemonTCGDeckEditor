@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-
+// DTO não ultilizado para Criação e carregamentos de Comentários
 @ObjectType()
 export class CommentDTO {
     @Field()

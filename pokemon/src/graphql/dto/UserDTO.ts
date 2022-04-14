@@ -1,6 +1,8 @@
 import { Field, InputType, ObjectType } from "type-graphql";
 import { DeckDTO } from "./DeckDTO";
 
+// DTO para definir Input e retorno de Usuário
+
 @ObjectType()
 export class UserDTO {
     @Field()

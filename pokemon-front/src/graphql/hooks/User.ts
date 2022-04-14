@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { TUserInput, TUserLoginInput } from "../../generated/";
 import { CREATE_USER, LOGIN_USER } from "../mutations/User";
 
+// Hooks para Carregar e Logar um Usuário
 export const useUserRegister = () => {
     const [mutate] = useMutation(CREATE_USER);
     return useCallback(

@@ -7,6 +7,7 @@ import { User } from "../../entity/User";
 import { ACCESS_TOKEN_SECRET } from "../../middlewares/constants";
 import { UserDTO, UserInput, UserLoginInput } from "../dto/UserDTO";
 
+// Resolver de Usuários
 export interface Context {
     user: UserDTO;
 }
@@ -20,6 +21,7 @@ export class UserResolver {
         this.repository = dataSource.getRepository(User);
     }
 
+    // Carregar a partir do JWT fornecido os dados de um usuário
     @Query((_) => UserDTO)
     async loadUser(@Arg("token") token?: string): Promise<UserDTO | null> {
         if (!token) {
@@ -29,6 +31,7 @@ export class UserResolver {
         return this.repository.findOneOrFail({ where: { id: Number(decodedToken.sub!) } });
     }
 
+    // Verifica os dados de Login Fornecidos e, caso corretor, retorna um JWT Válido
     @Mutation((_) => String)
     async loginUser(@Arg("input") input: UserLoginInput) {
         const email = await input.email;
@@ -41,13 +44,12 @@ export class UserResolver {
             return null;
         }
 
-        const accessToken = sign({ sub: user.id }, ACCESS_TOKEN_SECRET, {
-            expiresIn: "60min",
-        });
+        const accessToken = sign({ sub: user.id }, ACCESS_TOKEN_SECRET);
 
         return accessToken;
     }
 
+    // Registra um usuário com senha encriptografada
     @Mutation((_) => UserDTO)
     async createUser(@Arg("input") input: UserInput): Promise<UserDTO> {
         const email = await input.email;

@@ -1,11 +1,10 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import Container, { Service } from "typedi";
 import { DataSource, Repository } from "typeorm";
 import { Comment } from "../../entity/Comments";
 import { CommentCreateInput, CommentDTO } from "../dto/CommentDTO";
-import { DeckDTO } from "../dto/DeckDTO";
-import { Context } from "./UserResolver";
 
+// Resolver não ultilizado que criaria e carregaria todos os comentários relacionados a um Deck
 @Service()
 @Resolver(CommentDTO)
 export class CommentResolver {

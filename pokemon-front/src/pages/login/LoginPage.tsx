@@ -4,6 +4,8 @@ import Login from "../../components/LoginPage/Login";
 import useToggle from "../../hooks/useToggle";
 import { Box, Button, Card } from "@mui/material";
 
+// Página de Login Customizada em Pokebola ultilizada no Início da Aplicação
+
 const LoginForm = () => {
     const [isLoginActive, toggleLoginActive] = useToggle(true);
 
@@ -38,9 +40,9 @@ const LoginForm = () => {
                         sx={{ color: "#000000", margin: 15 }}
                         onClick={() => toggleLoginActive()}>
                         {isLoginActive ? (
-                            <p>Need to Create a User?</p>
+                            <p>Precisa Criar uma nova Conta?</p>
                         ) : (
-                            <p>Already have an account?</p>
+                            <p>Ja tem uma Conta?</p>
                         )}
                     </Button>
                 </Card>

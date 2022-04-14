@@ -1,6 +1,8 @@
 import React, { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// Uso de Context Provider para salvar e ultilizar os JWT pelo Client
+
 interface IAuthContext {
     token?: string;
     setToken: (input: string) => void;
@@ -25,7 +27,6 @@ const AuthContextProvider = (props: IProps) => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const now = Date.now;
 
     useEffect(() => {
         const storageToken = localStorage.getItem(TOKEN_NAME) || token;

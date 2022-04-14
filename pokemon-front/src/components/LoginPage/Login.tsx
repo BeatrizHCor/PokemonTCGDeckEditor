@@ -5,6 +5,8 @@ import { AuthContext } from "../../contexts/AuthContextProvider";
 import { TUserLoginInput } from "../../generated";
 import { useUserLogin } from "../../graphql/hooks/User";
 
+// Formulário padrão de Login usando JWT e localStorage
+
 const INITIAL_STATE = {
     password: "",
     email: "",
@@ -52,7 +54,7 @@ const Login = () => {
                             sx={{ margin: 1 }}
                             type="password"
                             name="password"
-                            label="Password"
+                            label="Senha"
                             value={state.password}
                             onChange={(event) => inputChangeHandler(event, "password")}
                         />

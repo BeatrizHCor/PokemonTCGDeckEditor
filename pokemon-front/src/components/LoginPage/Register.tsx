@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { TUserInput } from "../../generated";
 import { useUserRegister } from "../../graphql/hooks/User";
 
+// Formulário Padrão de Registro
+
 const INITIAL_STATE = {
     username: "",
     password: "",
@@ -32,7 +34,7 @@ const Register = () => {
 
     return (
         <Container className="base-container">
-            <h1 className="header">Register</h1>
+            <h1 className="header">Registro de Usuário</h1>
             <div className="content">
                 <div className="image"></div>
                 <Box sx={{ widht: 100, height: 300, borderRadius: 8 }} className="form">
@@ -42,7 +44,7 @@ const Register = () => {
                             variant="outlined"
                             type="text"
                             name="username"
-                            label="Username"
+                            label="Nome de Usuário"
                             value={state.username}
                             onChange={(event) => inputChangeHandler(event, "username")}
                         />
@@ -64,7 +66,7 @@ const Register = () => {
                             variant="outlined"
                             type="password"
                             name="password"
-                            label="Password"
+                            label="Senha"
                             value={state.password}
                             onChange={(event) => inputChangeHandler(event, "password")}
                         />
@@ -88,7 +90,7 @@ const Register = () => {
                     }}
                     variant="contained"
                     onClick={registerHandler}>
-                    Register
+                    Registrar
                 </Button>
             </div>
         </Container>

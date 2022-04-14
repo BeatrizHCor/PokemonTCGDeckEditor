@@ -8,6 +8,8 @@ import {
 import { CREATE_COMMENT } from "../mutations/Comment";
 import { LOAD_COMMENT } from "../queries/Comment";
 
+// Hooks não ultilizados para Carregamento e criação de Comentários no Deck
+
 export const useCommentLoad = (deckId: number) => {
     const { loading, error, data } = useQuery<TLoadCommentsQuery, TLoadCommentsQueryVariables>(
         LOAD_COMMENT,

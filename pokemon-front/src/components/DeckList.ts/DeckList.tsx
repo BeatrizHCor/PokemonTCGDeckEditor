@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
     Button,
     Card,
@@ -11,8 +11,9 @@ import {
     TableRow,
 } from "@mui/material";
 
+// Tabela ultilizando MUI para carregar a relação de Decks do Usuário
+
 import { useDeckLoad, useDeleteDeck } from "../../graphql/hooks/Deck";
-import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useNavigate } from "react-router-dom";
 import CatchingPokemon from "@mui/icons-material/CatchingPokemon";
 import { DeleteForeverRounded } from "@mui/icons-material";
@@ -27,17 +28,25 @@ const DeckList = () => {
 
     return (
         <>
-            <Card>
-                <h1>Deck List</h1>
-                <TableContainer sx={{ maxHeight: 500, width: 1500 }}>
+            <Card sx={{ marginTop: 15 }}>
+                <Card
+                    sx={{
+                        color: "#ffffff",
+                        backgroundColor: "#0075BE",
+                        height: 30,
+                        fontSize: 30,
+                    }}>
+                    Decks Salvos
+                </Card>
+                <TableContainer sx={{ height: 500, width: 1500 }}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">DeckName</TableCell>
-                                <TableCell align="center">Deck Id</TableCell>
-                                <TableCell align="center">Number of Cards</TableCell>
-                                <TableCell align="center">Edit Deck</TableCell>
-                                <TableCell align="center">Delete Deck</TableCell>
+                                <TableCell align="center">Nome</TableCell>
+                                <TableCell align="center">Id</TableCell>
+                                <TableCell align="center">Numero de Cartas</TableCell>
+                                <TableCell align="center">Editar</TableCell>
+                                <TableCell align="center">Deletar Deck</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -53,7 +62,7 @@ const DeckList = () => {
                                             <CatchingPokemon
                                                 onClick={() => navigate(`/deck?deckId=${deck?.id}`)}
                                                 sx={{
-                                                    color: "blue",
+                                                    color: " #D5A100",
                                                     cursor: "pointer",
                                                 }}></CatchingPokemon>
                                         </Container>
@@ -67,10 +76,14 @@ const DeckList = () => {
                                 </TableRow>
                             ))}
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 onClick={() => navigate("/deck")}
-                                sx={{ widht: "fit-content" }}>
-                                Create new Deck
+                                sx={{
+                                    widht: "fit-content",
+                                    color: "#ffffff",
+                                    backgroundColor: "#0075BE",
+                                }}>
+                                Criar Novo Deck
                             </Button>
                         </TableBody>
                     </Table>

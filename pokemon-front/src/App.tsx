@@ -3,9 +3,11 @@ import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AuthContext } from "./contexts/AuthContextProvider";
-import DeckEdit from "./pages/deckeditor/DeckEditor";
+import DeckEdit from "./pages/deckedit/DeckEdit";
 import HomePage from "./pages/homepage/HomePage";
 import LoginForm from "./pages/login/LoginPage";
+
+// Aplicação usa React Router para navegação entre as páginas
 
 const App = () => {
     const { token } = useContext(AuthContext);
