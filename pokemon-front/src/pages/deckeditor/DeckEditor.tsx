@@ -1,12 +1,12 @@
 import React from "react";
-import CardSearch from "../../components/CardSearch/DeckEditor";
+import DeckEditor from "../../components/CardSearch/DeckEditor";
 
-const DeckEditor = () => {
+const DeckEdit = () => {
     return (
         <>
-            <CardSearch />
+            <DeckEditor />
         </>
     );
 };
 
-export default DeckEditor;
+export default DeckEdit;

@@ -7,7 +7,7 @@ import {
     TLoadDeckandCardsQueryVariables,
     TQuery,
 } from "../../generated";
-import { CREATE_DECK, UPDATE_DECK } from "../mutations/Deck";
+import { CREATE_DECK, DELETE_DECK, UPDATE_DECK } from "../mutations/Deck";
 
 import { LOAD_DECKS, LOAD_ONE_DECK } from "../queries/Deck";
 
@@ -45,4 +45,9 @@ export const useSaveDeck = () => {
             }),
         [mutate]
     );
+};
+
+export const useDeleteDeck = () => {
+    const [mutate] = useMutation(DELETE_DECK, { refetchQueries: [LOAD_DECKS] });
+    return useCallback((deckId: Number) => mutate({ variables: { deckId } }), [mutate]);
 };

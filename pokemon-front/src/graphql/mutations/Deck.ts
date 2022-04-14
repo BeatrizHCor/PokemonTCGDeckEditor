@@ -18,3 +18,8 @@ export const CREATE_DECK = gql`
         }
     }
 `;
+export const DELETE_DECK = gql`
+    mutation DeleteDeck($deckId: Float!) {
+        deleteDeck(deckId: $deckId)
+    }
+`;

@@ -11,7 +11,7 @@ import {
     TableRow,
 } from "@mui/material";
 
-import { useDeckLoad } from "../../graphql/hooks/Deck";
+import { useDeckLoad, useDeleteDeck } from "../../graphql/hooks/Deck";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useNavigate } from "react-router-dom";
 import CatchingPokemon from "@mui/icons-material/CatchingPokemon";
@@ -19,6 +19,7 @@ import { DeleteForeverRounded } from "@mui/icons-material";
 const DeckList = () => {
     const { decks, loading } = useDeckLoad();
     const navigate = useNavigate();
+    const deleteDeck = useDeleteDeck();
 
     if (loading) {
         return <p>...loading</p>;
@@ -59,6 +60,7 @@ const DeckList = () => {
                                     </TableCell>
                                     <TableCell align="center">
                                         <DeleteForeverRounded
+                                            onClick={() => deleteDeck(deck.id)}
                                             sx={{ color: "black", cursor: "pointer" }}
                                         />
                                     </TableCell>
@@ -66,7 +68,7 @@ const DeckList = () => {
                             ))}
                             <Button
                                 variant="outlined"
-                                onClick={() => navigate("/:deck")}
+                                onClick={() => navigate("/deck")}
                                 sx={{ widht: "fit-content" }}>
                                 Create new Deck
                             </Button>

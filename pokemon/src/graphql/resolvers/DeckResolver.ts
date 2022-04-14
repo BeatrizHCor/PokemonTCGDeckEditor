@@ -39,7 +39,9 @@ export class DeckResolver {
         const { user } = context;
         const deck = await this.repository.findOneOrFail({
             where: { id: input.id },
+            relations: ["user"],
         });
+
         if (deck.user.id !== user.id) {
             throw new Error("Esse Deck não pertence a esse usuário");
         }
@@ -53,5 +55,20 @@ export class DeckResolver {
     ): Promise<DeckDTO> {
         const { user } = context;
         return this.repository.save({ ...input, user });
+    }
+
+    @Mutation((_) => Number)
+    async deleteDeck(@Arg("deckId") deckId: number, @Ctx() context: Context): Promise<Number> {
+        const { user } = context;
+        const deck = await this.repository.findOneOrFail({
+            where: { id: deckId },
+            relations: ["user"],
+        });
+
+        if (deck.user.id !== user.id) {
+            throw new Error("Esse Deck não pertence a esse usuário");
+        }
+        await this.repository.delete(deckId);
+        return deckId;
     }
 }

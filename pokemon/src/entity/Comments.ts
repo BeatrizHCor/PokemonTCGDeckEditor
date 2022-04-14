@@ -1,6 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Deck } from "./Deck";
-import { User } from "./User";
 
 @Entity()
 export class Comment extends BaseEntity {

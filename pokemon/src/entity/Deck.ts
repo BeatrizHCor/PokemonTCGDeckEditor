@@ -28,6 +28,10 @@ export class Deck extends BaseEntity {
     @JoinColumn({ name: "userId" })
     user: User;
 
-    @OneToMany(() => Comment, (comment) => comment.deck, { nullable: true, eager: true })
+    @OneToMany(() => Comment, (comment) => comment.deck, {
+        nullable: true,
+        eager: true,
+        onDelete: "CASCADE",
+    })
     comments: Comment[];
 }
