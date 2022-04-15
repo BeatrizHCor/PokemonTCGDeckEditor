@@ -14,7 +14,7 @@ export class DeckResolver {
         this.repository = dataSource.getRepository(Card);
     }
 
-    // Seleciona um número aleatório entre 1 e 14679, repetido 60 vezes. Retorna um Array de Ids de cartas relacionadas aos 60 números aleatórios fornecidos
+    // Seleciona um número aleatório entre 1 e 14679, repetido 60 vezes sem duplicação. Retorna um Array de Ids de cartas relacionadas aos 60 números aleatórios fornecidos
     @Query((_) => [String])
     async randomCards() {
         const rndCards: number[] = [];

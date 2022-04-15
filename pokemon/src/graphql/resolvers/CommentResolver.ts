@@ -23,4 +23,10 @@ export class CommentResolver {
     async createComment(@Arg("input") input: CommentCreateInput): Promise<CommentDTO> {
         return this.repository.save(input);
     }
+
+    @Mutation((_) => Number)
+    async deleteComment(@Arg("CommentId") commentId: number): Promise<Number> {
+        await this.repository.delete(commentId);
+        return commentId;
+    }
 }

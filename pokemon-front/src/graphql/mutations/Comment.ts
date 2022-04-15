@@ -9,3 +9,8 @@ export const CREATE_COMMENT = gql`
         }
     }
 `;
+export const DELETE_COMMENT = gql`
+    mutation DeleteComment($commentId: Float!) {
+        deleteComment(CommentId: $commentId)
+    }
+`;

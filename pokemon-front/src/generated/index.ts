@@ -26,6 +26,10 @@ export type TCommentDto = {
     id: Scalars["Float"];
 };
 
+export type TCommentDeleteInput = {
+    id: Scalars["Float"];
+};
+
 export type TDeckCreateInput = {
     cards: Array<Scalars["String"]>;
     name: Scalars["String"];
@@ -57,6 +61,7 @@ export type TMutation = {
     createComment: TCommentDto;
     createDeck: TDeckDto;
     createUser: TUserDto;
+    deleteComment: Scalars["Float"];
     deleteDeck: Scalars["Float"];
     loginUser: Scalars["String"];
     updateDeck: TDeckUpdateDto;
@@ -72,6 +77,10 @@ export type TMutationCreateDeckArgs = {
 
 export type TMutationCreateUserArgs = {
     input: TUserInput;
+};
+
+export type TMutationDeleteCommentArgs = {
+    CommentId: Scalars["Float"];
 };
 
 export type TMutationDeleteDeckArgs = {
@@ -146,6 +155,12 @@ export type TCreateDeckMutationVariables = Exact<{
 export type TCreateDeckMutation = {
     createDeck: { name: string; id: number; cards: Array<string> };
 };
+
+export type TDeleteDeckMutationVariables = Exact<{
+    deckId: Scalars["Float"];
+}>;
+
+export type TDeleteDeckMutation = { deleteDeck: number };
 
 export type TCreateUserMutationVariables = Exact<{
     input: TUserInput;

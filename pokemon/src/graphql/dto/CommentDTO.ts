@@ -22,3 +22,9 @@ export class CommentCreateInput {
     @Field()
     date: Date;
 }
+
+@InputType()
+export class CommentDeleteInput {
+    @Field()
+    id: number;
+}
