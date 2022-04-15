@@ -17,10 +17,7 @@ export class CommentCreateInput {
     content: string;
 
     @Field()
-    deckid: number;
-
-    @Field()
-    date: Date;
+    deckId: number;
 }
 
 @InputType()

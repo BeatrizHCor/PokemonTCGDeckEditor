@@ -16,8 +16,7 @@ export type Scalars = {
 
 export type TCommentCreateInput = {
     content: Scalars["String"];
-    date: Scalars["DateTime"];
-    deckid: Scalars["Float"];
+    deckId: Scalars["Float"];
 };
 
 export type TCommentDto = {
@@ -139,6 +138,12 @@ export type TCreateCommentMutationVariables = Exact<{
 }>;
 
 export type TCreateCommentMutation = { createComment: { id: number; date: any; content: string } };
+
+export type TDeleteCommentMutationVariables = Exact<{
+    commentId: Scalars["Float"];
+}>;
+
+export type TDeleteCommentMutation = { deleteComment: number };
 
 export type TUpdateDeckMutationVariables = Exact<{
     input: TDeckUpdateInput;

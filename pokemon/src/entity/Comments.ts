@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "typeorm";
 import { Deck } from "./Deck";
 
 @Entity()
@@ -6,14 +14,14 @@ export class Comment extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @UpdateDateColumn()
     date: Date;
 
     @Column()
     content: string;
 
     @Column()
-    deckid: number;
+    deckId: number;
 
     @ManyToOne(() => Deck, (deck) => deck.comments)
     @JoinColumn({ name: "deckId" })

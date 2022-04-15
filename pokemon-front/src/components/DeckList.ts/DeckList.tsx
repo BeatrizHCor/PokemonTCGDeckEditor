@@ -13,18 +13,24 @@ import {
 
 // Tabela ultilizando MUI para carregar a relação de Decks do Usuário
 
-import { useDeckLoad, useDeleteDeck } from "../../graphql/hooks/Deck";
+import { useDeckLoad, useDeleteDeck, useSaveDeck } from "../../graphql/hooks/Deck";
 import { useNavigate } from "react-router-dom";
 import CatchingPokemon from "@mui/icons-material/CatchingPokemon";
 import { DeleteForeverRounded } from "@mui/icons-material";
 const DeckList = () => {
-    const { decks, loading } = useDeckLoad();
+    const { decks } = useDeckLoad();
     const navigate = useNavigate();
     const deleteDeck = useDeleteDeck();
+    const saveDeck = useSaveDeck();
 
-    if (loading) {
-        return <p>...loading</p>;
-    }
+    const createNewDeck = () => {
+        saveDeck({
+            cards: [],
+            name: "Novo Deck",
+        }).then((result) => {
+            navigate(`/deck?deckId=${result.data.createDeck.id}`);
+        });
+    };
 
     return (
         <>
@@ -35,6 +41,7 @@ const DeckList = () => {
                         backgroundColor: "#0075BE",
                         height: 30,
                         fontSize: 30,
+                        padding: "1rem 0",
                     }}>
                     Decks Salvos
                 </Card>
@@ -60,7 +67,7 @@ const DeckList = () => {
                                     <TableCell align="center">
                                         <Container>
                                             <CatchingPokemon
-                                                onClick={() => navigate(`/deck?deckId=${deck?.id}`)}
+                                                onClick={() => navigate(`/deck?deckId=${deck.id}`)}
                                                 sx={{
                                                     color: " #D5A100",
                                                     cursor: "pointer",
@@ -75,19 +82,20 @@ const DeckList = () => {
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            <Button
-                                variant="contained"
-                                onClick={() => navigate("/deck")}
-                                sx={{
-                                    widht: "fit-content",
-                                    color: "#ffffff",
-                                    backgroundColor: "#0075BE",
-                                }}>
-                                Criar Novo Deck
-                            </Button>
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Button
+                    variant="contained"
+                    onClick={createNewDeck}
+                    sx={{
+                        widht: "fit-content",
+                        color: "#ffffff",
+                        backgroundColor: "#0075BE",
+                        marginBottom: "1rem",
+                    }}>
+                    Criar Novo Deck
+                </Button>
             </Card>
         </>
     );

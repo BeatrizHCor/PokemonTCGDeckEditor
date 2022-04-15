@@ -7,6 +7,9 @@ import { TDeckUpdateInput } from "../../generated";
 import { useSearchParams } from "react-router-dom";
 import { useRandomCard } from "../../graphql/hooks/Cards";
 import { CatchingPokemon } from "@mui/icons-material";
+import CommentDialog from "./CommentDialog";
+import { useCommentLoad } from "../../graphql/hooks/Comment";
+import useToggle from "../../hooks/useToggle";
 
 const INITIAL_STATE: PokemonTCG.Card[] = [];
 const INITIAL_SAVE_STATE = {
@@ -26,6 +29,8 @@ const DeckEditor = () => {
     const { deckLoad, loading } = useDeckLoadOne(Number(deckId.get("deckId")));
     const [generatingRNDCards, setGeneratingRNDCards] = useState(false);
     const { randomCards } = useRandomCard(generatingRNDCards);
+    const { commentLoad } = useCommentLoad(Number(deckId.get("deckId")));
+    const [isOpen, toggleOpen] = useToggle();
 
     // Função que consiste em carregar as cartas de um Array de Ids fornecido. Usado para Carregar Decks pelo parâmetro URL ou Gerar Decks Aleatórios
     const defineDeck = async (cardIds: string[]) => {
@@ -106,89 +111,31 @@ const DeckEditor = () => {
         return <p>...loading</p>;
     }
     return (
-        <Box>
-            <Container
+        <Box width="100%" sx={{ display: "flex", marginTop: 15 }}>
+            <Card
                 sx={{
-                    left: -450,
-                    top: 70,
-                    color: "#1361f3",
-                    position: "fixed",
-                    fontSize: 35,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    flex: "0 0 300px",
+                    width: "100%",
+                    height: "100%",
+                    paddingBottom: "5rem",
+                    backgroundColor: "#F5F5F5",
                 }}>
-                <p style={{ position: "relative" }}>Nome do Deck</p>
+                <p style={{ marginBottom: "none", fontSize: "2rem" }}>Nome do Deck</p>
                 <TextField
                     sx={{
-                        position: "relative",
-                        top: -40,
                         color: "#0075BE",
-                        boxShadow: 4,
-                        "#0075BE": 9,
+                        margin: "none",
                     }}
                     type="text"
                     name="Deck Name"
                     value={input.name}
                     onChange={(event) => inputSaveDeck(event, "name")}
                 />
-            </Container>
-            <Container
-                sx={{
-                    marginTop: 20,
-                    marginBottom: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    left: 140,
-                    position: "relative",
-                }}>
-                <CatchingPokemon />
-                <p>
-                    Clique em uma carta do deck para removê-la. Clique em uma Carta Pesquisada para
-                    Adiciona-la
-                </p>
-                <CatchingPokemon />
-            </Container>
+                <Button onClick={toggleOpen}>Comentários</Button>
 
-            <Card
-                sx={{
-                    display: "flex",
-                    overflow: "auto",
-                    margin: 1,
-                    height: 700,
-                    minHeight: 350,
-                    width: 1000,
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    marginLeft: 5,
-                }}>
-                {currentDeck.map((card) => (
-                    <Container
-                        sx={{
-                            margin: 1,
-                            width: "fit-content",
-                            overflow: "auto",
-                        }}
-                        key={card.id}>
-                        <img
-                            style={{
-                                maxWidth: 150,
-                                cursor: "pointer",
-                            }}
-                            src={card.images.small}
-                            onClick={() => removeCardfromDeck(card)}></img>
-                    </Container>
-                ))}
-            </Card>
-            <Card
-                sx={{
-                    position: "fixed",
-                    display: "flex",
-                    flexDirection: "column",
-                    left: 40,
-                    top: 200,
-                    padding: 8,
-                    gap: 2,
-                    width: 200,
-                    backgroundColor: "#F5F5F5",
-                }}>
                 <Button
                     variant="contained"
                     sx={{ height: 50, margin: 1 }}
@@ -216,65 +163,121 @@ const DeckEditor = () => {
                     onClick={() => defineDeck(deckLoad?.cards || [])}>
                     Recarregar Deck
                 </Button>
+                <Container
+                    sx={{
+                        marginBottom: "none",
+                        display: "flex",
+                        alignItems: "center",
+                    }}></Container>
+                <Container
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+
+                        backgroundColor: "#F5F5F5",
+                    }}>
+                    <p style={{ fontSize: 15, color: "#1361f3" }}>
+                        Coloque um nome para procurar por novas cartas
+                    </p>
+                    <TextField
+                        placeholder="Nome da Carta"
+                        onChange={(e) => setCardSearch(e.target.value)}
+                    />
+                    <Button
+                        sx={{ backgroundColor: "#a6cef3", color: "#FFFFFF" }}
+                        onClick={findByName}>
+                        Procurar
+                    </Button>
+                </Container>
             </Card>
-            <Container
-                sx={{
-                    marginTop: 1,
-                    marginBottom: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    left: 320,
-                    position: "relative",
-                }}></Container>
-            <Container
-                sx={{
-                    position: "fixed",
-                    display: "flex",
-                    flexDirection: "column",
-                    left: 38,
-                    bottom: -50,
-                    padding: 8,
-                    gap: 1,
-                    width: 332,
-                    backgroundColor: "#F5F5F5",
-                }}>
-                <p style={{ fontSize: 15, color: "#1361f3" }}>
-                    Coloque um nome para procurar por novas cartas
-                </p>
-                <TextField
-                    placeholder="Nome da Carta"
-                    onChange={(e) => setCardSearch(e.target.value)}
-                />
-                <Button sx={{ backgroundColor: "#a6cef3", color: "#FFFFFF" }} onClick={findByName}>
-                    Procurar
-                </Button>
-            </Container>
-            <Container>
+            <div>
+                <Container
+                    sx={{
+                        marginBottom: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        textAlign: "center",
+                        width: "100%",
+                        justifyContent: "center",
+                        position: "relative",
+                    }}>
+                    <CatchingPokemon />
+                    <p>
+                        Clique em uma carta do deck para removê-la. Clique em uma carta pesquisada
+                        para adiciona-la.
+                    </p>
+                    <CatchingPokemon />
+                </Container>
+
                 <Card
                     sx={{
                         display: "flex",
-                        justifyContent: "flex-start",
-                        overflowX: "auto",
-                        overflowY: "hidden",
-                        maxWidth: 1000,
-                        position: "relative",
-                        left: 16,
+                        overflow: "auto",
+                        margin: 1,
+                        height: 700,
+                        minHeight: 350,
+                        width: 1000,
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        marginLeft: 5,
                     }}>
-                    {cardData.map((card) => (
-                        <Container key={card.id} sx={{ minWidth: 300, height: 350 }}>
+                    {currentDeck.map((card) => (
+                        <Container
+                            sx={{
+                                margin: 1,
+                                width: "fit-content",
+                                overflow: "auto",
+                            }}
+                            key={card.id}>
                             <img
-                                src={card.images.small}
                                 style={{
-                                    maxWidth: 250,
-
+                                    maxWidth: 150,
                                     cursor: "pointer",
                                 }}
-                                onClick={() => addCardtoDeck(card.id)}></img>
-                            <p>{card.name}</p>
+                                src={card.images.small}
+                                onClick={() => removeCardfromDeck(card)}></img>
                         </Container>
                     ))}
                 </Card>
-            </Container>
+
+                {cardData.length > 0 && (
+                    <Container>
+                        <p>Selecione as cartas pesquisadas abaixo</p>
+                        <Card
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-start",
+                                overflowX: "auto",
+                                overflowY: "hidden",
+                                maxWidth: 1000,
+                                position: "relative",
+                                left: 16,
+                            }}>
+                            {cardData.map((card) => (
+                                <Container key={card.id} sx={{ minWidth: 300, height: 350 }}>
+                                    <img
+                                        src={card.images.small}
+                                        style={{
+                                            maxWidth: 250,
+
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => addCardtoDeck(card.id)}></img>
+                                    <p>{card.name}</p>
+                                </Container>
+                            ))}
+                        </Card>
+                    </Container>
+                )}
+            </div>
+
+            <CommentDialog
+                isOpen={isOpen}
+                comments={commentLoad}
+                toggleOpen={toggleOpen}
+                id={Number(deckId.get("deckId"))}
+            />
         </Box>
     );
 };

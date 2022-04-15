@@ -11,7 +11,10 @@ const INITIAL_STATE = {
     password: "",
     email: "",
 };
-const Login = () => {
+interface IProps {
+    setErrorMessage: (message: string) => void;
+}
+const Login = (props: IProps) => {
     const [state, setState] = useState<TUserLoginInput>(INITIAL_STATE);
     const { setToken } = useContext(AuthContext);
     const login = useUserLogin();
@@ -30,7 +33,7 @@ const Login = () => {
                 navigate("/Home");
             })
             .catch(() => {
-                alert("User not Found or Password not Match");
+                props.setErrorMessage("Usuário não encontrado");
             });
     };
 

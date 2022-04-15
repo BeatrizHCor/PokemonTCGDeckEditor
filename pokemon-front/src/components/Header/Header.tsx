@@ -18,29 +18,33 @@ const Header = () => {
             <Card
                 sx={{
                     position: "fixed",
+                    zIndex: 100,
                     top: 0,
-                    height: 90,
                     backgroundColor: " #bdd3ec",
                     width: "100%",
                     display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                 }}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Pokémon_Trading_Card_Game_logo.svg"></img>
+                <div
+                    style={{
+                        display: "flex",
+                        columnGap: "3rem",
+                        height: 90,
+                    }}>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Pokémon_Trading_Card_Game_logo.svg"></img>
 
-                <Button
-                    variant="contained"
-                    sx={{ left: 30, backgroundColor: "#92a7be" }}
-                    onClick={() => navigate("/home")}>
-                    <FormatListBulletedIcon />
-                    Lista de Decks
-                </Button>
-                <Button
-                    sx={{ left: 50, backgroundColor: "#92a7be", position: "relative" }}
-                    onClick={logOut}>
+                    <Button variant="text" onClick={() => navigate("/home")}>
+                        <FormatListBulletedIcon />
+                        Lista de Decks
+                    </Button>
+                </div>
+
+                <Button variant="text" onClick={logOut} sx={{ margin: 5 }}>
                     Sair
                     <ExitToAppIcon />
                 </Button>
             </Card>
-            ;
         </>
     );
 };

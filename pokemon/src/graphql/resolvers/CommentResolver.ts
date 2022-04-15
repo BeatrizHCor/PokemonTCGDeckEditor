@@ -16,7 +16,7 @@ export class CommentResolver {
 
     @Query((_) => [CommentDTO])
     async loadComments(@Arg("deckId") deckId: number) {
-        return this.repository.find({ where: { deckid: deckId } });
+        return this.repository.find({ where: { deckId } });
     }
 
     @Mutation(() => CommentDTO)
